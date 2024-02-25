@@ -162,5 +162,6 @@ cython_debug/
 
 notebook/data/*
 notebook/catboost_info/*
+artifacts/*
 
 
