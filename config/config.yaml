@@ -1,0 +1,7 @@
+artifact_root: artifacts
+
+
+data_ingestion:
+  source_URL: 
+  zip_file: artifacts/data_ingestion/data/
+  unzip_file: artifacts/data_ingestion/data/
