@@ -1,0 +1,15 @@
+COLUMNS:
+  carat: float64
+  cut: object
+  color: object
+  clarity: object
+  depth: float64
+  table: float64
+  x: float64
+  y: float64
+  z: float64
+
+
+TARGET_COLUMNS:
+  name: price
+
