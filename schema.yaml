@@ -10,6 +10,6 @@ COLUMNS:
   z: float64
 
 
-TARGET_COLUMNS:
+TARGET_COLUMN:
   name: price
 
