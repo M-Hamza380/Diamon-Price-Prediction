@@ -1,4 +1,5 @@
 COLUMNS:
+  id: int64
   carat: float64
   cut: object
   color: object
