@@ -24,12 +24,10 @@ class DataValidation:
                     validation_status = False
 
                     with open(self.config.Status_File, 'w') as f:
-                        f.write(f"All schema columns: \n {all_schema} \n")
                         f.write(f"validation Status: {validation_status}")
                 else:
                     validation_status = True
                     with open(self.config.Status_File, 'w') as f:
-                        f.write(f"All schema columns: \n {all_schema} \n")
                         f.write(f"validation Status: {validation_status}")
             
             return validation_status
