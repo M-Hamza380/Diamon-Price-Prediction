@@ -1,1 +1,25 @@
-key: val
+ElasticNet:
+  alpha: 0.3
+  l1_ratio: 0.8
+  max_iter: 800
+
+DecisionTreeRegressor:
+  criterion: 'absolute_error'
+  max_depth: 12
+  max_features: 'sqrt'
+  min_samples_leaf: 8
+  min_samples_split: 8
+
+RandomForestRegressor:
+  n_estimators: 32
+  criterion: 'poisson'
+  max_features: 'sqrt'
+  max_depth: 6
+  min_samples_leaf: 3
+  min_samples_splt: 3
+
+GradientBoostingRegressor:
+  n_estimators: 32
+  criterion: 'squared_error'
+  loss: 'squared_error'
+  max_features: 'sqrt'
