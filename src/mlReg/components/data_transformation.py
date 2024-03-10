@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.compose import ColumnTransformer
@@ -26,23 +27,23 @@ class DataTransformation:
                 ],
                     verbose_feature_names_out=False,
                     remainder='passthrough'
-            )
+            ).set_output(transform='pandas')
 
             categorical_trf = ColumnTransformer(
                 transformers=[
-                    ('imputer', SimpleImputer(strategy='most_frequent')),
+                    ('imputer', SimpleImputer(strategy='most_frequent'), categorical_columns),
                     ('encoding', OrdinalEncoder(dtype= 'int64'), categorical_columns)
                 ],
                 verbose_feature_names_out=False,
                 remainder='passthrough'
-            )
+            ).set_output(transform='pandas')
 
             preprocess = Pipeline(
                 steps=[
                     ('num_trf', numerical_trf),
                     ('cat_trf', categorical_trf)
                 ]
-            )
+            ).set_output(transform='pandas')
 
             return preprocess
 
@@ -59,11 +60,26 @@ class DataTransformation:
 
         preprocess_obj = self.get_data_transform()
 
-        train_arr = preprocess_obj.fit_transform(train)
+        target_column_name = 'price'
 
-        train_arr.to_csv(os.path.join(self.config.root_dir, 'train.csv'), index=False)
-        test_arr.to_csv(os.path.join(self.config.root_dir, 'test.csv'), index=False)
+        train_df_features = train.drop(columns=[target_column_name], axis=1)
+        train_df_target = train[target_column_name]
+
+        test_df_features = test.drop(columns=[target_column_name], axis=1)
+        test_df_target = test[target_column_name]
+
+        train_arr_features = preprocess_obj.fit_transform(train_df_features)
+        test_arr_features = preprocess_obj.transform(test_df_features)
+
+        train_df = pd.concat([train_arr_features, train_df_target], axis=1)
+        test_df = pd.concat([test_arr_features, test_df_target], axis=1)
+
+        object_cols = data.select_dtypes(include=['object']).columns
+
+        train_df.drop(columns=object_cols, axis=1, inplace=True)
+        test_df.drop(columns=object_cols, axis=1, inplace=True)
+
+        train_df.to_csv(os.path.join(self.config.root_dir, 'train.csv'), index=False)
+        test_df.to_csv(os.path.join(self.config.root_dir, 'test.csv'), index=False)
 
         logger.info(f"Split data into training and testing features")
-        logger.info(train.shape)
-        logger.info(test.shape)
