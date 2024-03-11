@@ -35,3 +35,12 @@ class ModelTrainerConfig:
     min_samples_leaf: int
     min_samples_split: int
     target_column: str
+
+@dataclass(frozen=True)
+class ModelEvaluationConfig:
+    root_dir: Path
+    test_data_path: Path
+    model_path: Path
+    all_params: dict
+    metric_file: Path
+    target_column: str
