@@ -74,10 +74,8 @@ class DataTransformation:
         train_df = pd.concat([train_arr_features, train_df_target], axis=1)
         test_df = pd.concat([test_arr_features, test_df_target], axis=1)
 
-        object_cols = data.select_dtypes(include=['object']).columns
-
-        train_df.drop(columns=object_cols, axis=1, inplace=True)
-        test_df.drop(columns=object_cols, axis=1, inplace=True)
+        train_df = train_df.iloc[:,3:]
+        test_df = test_df.iloc[:,3:]
 
         train_df.to_csv(os.path.join(self.config.root_dir, 'train.csv'), index=False)
         test_df.to_csv(os.path.join(self.config.root_dir, 'test.csv'), index=False)

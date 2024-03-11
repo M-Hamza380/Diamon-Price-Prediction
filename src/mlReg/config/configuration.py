@@ -1,7 +1,7 @@
 from src.mlReg.constants import *
 from src.mlReg.utils.common import read_yaml, create_directories
 from src.mlReg.entity.config_entity import (DataIngestionConfig, DataValidationConfig,
-                                            DataTransformationConfig)
+                                            DataTransformationConfig, ModelTrainerConfig)
 
 class ConfigurationManager:
     def __init__(
@@ -56,5 +56,28 @@ class ConfigurationManager:
         )
 
         return data_transformation_config
+    
+    def get_model_trainer_config(self) -> ModelTrainerConfig:
+        config = self.config.model_trainer
+        dt_params = self.params.RandomForestRegressor
+        schema = self.schema.TARGET_COLUMN
+
+        create_directories([config.root_dir])
+
+        model_trainer_config = ModelTrainerConfig(
+            root_dir= config.root_dir,
+            train_data_path= config.train_data_path,
+            test_data_path= config.test_data_path,
+            model_name= config.model_name,
+            n_estimators = dt_params.n_estimators,
+            criterion= dt_params.criterion,
+            max_features= dt_params.max_features,
+            max_depth= dt_params.max_depth,
+            min_samples_leaf= dt_params.min_samples_leaf,
+            min_samples_split= dt_params.min_samples_split,
+            target_column= schema.name
+        )
+
+        return model_trainer_config
 
 
